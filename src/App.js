@@ -1,40 +1,90 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from 'react';
+import {nanoid} from 'nanoid';
 import React, { Component }  from 'react';
 import './App.css';
+import NotesList from './components/NotesList';
+import Search from './components/Search'
+import Header from './components/Header'
 
 function App() {
-//   useEffect(() => {
-//     fetch("http://localhost:3000/api/v1/users", {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//     Accept: "application/json",
-//   },
-//   body: JSON.stringify(newUserData),
-// })
-//   .then((r) => r.json())
-//   .then((data) => {
-//     // save the token to localStorage for future access
-//     localStorage.setItem("jwt", data.jwt);
-//     // save the user somewhere (in state!) to log the user in
-//     setUser(data.user);
-//   });
-//   }, []);
+  
+  const [notes, setNotes] = useState([
+    {
+    id: nanoid(),
+    text: "this is my first note!",
+    date: "11/09/2021",
+  },
+  {
+    id: nanoid(),
+    text: "this is my second note!",
+    date: "11/09/2021",
+  },
+  {
+    id: nanoid(),
+    text: "this is my third note!",
+    date: "11/09/2021",
+  },
+  {
+    id: nanoid(),
+    text: "this is my new note!",
+    date: "11/30/2021",
+  },
+]);
 
-  return 
-  <h1>Hello from React!</h1>;
+const [searchText, setSearchText] = useState('');
+
+useEffect(()=> {
+  const savedNotes = JSON.parse(
+    localStorage.getItem('react-notes-app-data')
+  );
+
+if (savedNotes) {
+  setNotes(savedNotes);
 }
+}, [])
+
+useEffect(()=> {
+  localStorage.setItem('react-notes-app-data', JSON.stringify(notes))
+
+}, [notes]);
+
+const addNote = (text) => {
+  const date = new Date();
+  const newNote = {
+    id: nanoid(),
+    text: text,
+    date: date.toLocaleDateString(),
+  };
+  const newNotes = [...notes, newNote];
+  setNotes(newNotes);
+
+};
+
+const deleteNote = (id) => {
+  const newNotes = notes.filter((note) => note.id !== id);
+  setNotes(newNotes)
+}
+  return(
+     <div className="container"> 
+     <Header />
+     <Search 
+        handleSearchNote={setSearchText}
+     />
+     
+      <NotesList 
+        notes={notes.filter((note) => note.text.toLowerCase().includes(searchText))} 
+        handleAddNote={addNote}
+        handleDeleteNote={deleteNote}
+      />
+    </div>
+  )
+};
 
 export default App;
 
 
 
-// import React, { Component } from "react";
-// import { BrowserRouter as Router, Link, Route} from "react-router-dom";
-// import Home from "./components/Home"
-// // import Play from "./components/Play"
-// // import YourStuff from "./components/YourStuff"
-// import LoginPage from "./components/LoginPage"
+
 
 // function App() {
 
