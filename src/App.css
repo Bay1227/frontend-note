@@ -100,5 +100,15 @@ textarea:focus{
   outline: none;
 }
 
+.navbar {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  
+}
+
+.navbar:hover {
+  color: #bdbdbd;
+}
 
 

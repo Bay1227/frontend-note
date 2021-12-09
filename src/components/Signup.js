@@ -1,80 +1,64 @@
-// import React, {useState, useEffect } from "react";
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom'
 
-// function Signup() {
-//   const [username, setUsername] = useState("")
-//   const [password, setPassword] = useState("")
+function Signup({ setCurrentUser }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [password_confirmation, setPasswordConfirmation] = useState("");
+  const navigate = useNavigate()
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch("/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+        password_confirmation
+      }),
+    }).then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setCurrentUser(user));
+        navigate("/")
+      }
+      else {
+        r.json().then((error) => alert(error.error))}
+    });
+  };
+  return (
+    <form onSubmit={(e) => handleSubmit(e)}>
+        <label>Username</label>
+        <input
+        placeholder="Username"
+        type="text"
+        id="username"
+        autoComplete="off"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        />
+        <label>Password</label>
+        <input
+        placeholder="Password"
+        type="password"
+        id="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        />
+        <label>Password Confirmation</label>
+        <input
+        className="login-text"
+        placeholder="Password Confirmation"
+        type="password"
+        id="password_confirmation"
+        value={password_confirmation}
+        onChange={(e) => setPasswordConfirmation(e.target.value)}
+        />
+        <button type="submit">Sign Up</button>
+    </form>
+  );
+}
 
-
-//   function handleSignupSubmit(e) {
-//     e.preventDefault
-//     fetch("http://localhost:3000/api/v1/users", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json",
-//       },
-//       body: JSON.stringify(username, password),
-//     })
-//       .then((r) => r.json())
-//       .then((data) => {
-
-
-//         // save the token to localStorage for future access
-//         // localStorage.setItem("jwt", data.jwt);
-//         // save the user somewhere (in state!) to log the user in
-//         // setUser(data.user);
-//       });
-//       }
-
-    
-     
-
-//   // useEffect(() => {
-//   //   fetch("http://localhost:3000/api/v1/users", {
-//   //     method: "POST",
-//   //     headers: {
-//   //       "Content-Type": "application/json",
-//   //       Accept: "application/json",
-//   //     },
-//   //     body: JSON.stringify(newUserData),
-//   //   })
-//   //     .then((r) => r.json())
-//   //     .then((data) => {
-//   //       // save the token to localStorage for future access
-//   //       localStorage.setItem("jwt", data.jwt);
-//   //       // save the user somewhere (in state!) to log the user in
-//   //       setUser(data.user);
-//   //     });
-//   //     }, []);
-
-//   return (
-//     <div>
-//       <form onSubmit={handleSignupSubmit}>
-//         Username:
-//         <input 
-//         className="Signup-inputs" 
-//         type="text" 
-//         id="username" 
-//         placeholder=" Username" 
-//         value={username} 
-//         onChange={(e) => setUsername(e.target.value)}
-//         />
-//         Password:
-//         <input 
-//           className="Signup-inputs" 
-//           type="password" 
-//           id="password"
-//           placeholder=" Password" 
-//           value={password} 
-//           onChange={(e) => setPassword(e.target.value)}
-//         />
-//         <button type="submit">Signup</button>
-
-//       </form>
-//     </div>
-//   )
-  
-// }
-
-// export default App;
+export default Signup;
