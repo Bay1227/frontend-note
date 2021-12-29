@@ -29,7 +29,9 @@ function Login({ setCurrentUser }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    < div className="Login-container"> 
+    <form  onSubmit={handleSubmit}>
+      <div className="login-forms"> 
         <h1>Login</h1>
         <label htmlFor="username">Username</label>
         <input
@@ -50,7 +52,9 @@ function Login({ setCurrentUser }) {
         />
         <br />
         <button type="submit">Login</button>
+        </div>
       </form>
+      </div>
   );
 }
 

@@ -111,4 +111,17 @@ textarea:focus{
   color: #bdbdbd;
 }
 
+.login-forms {
+  margin: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.0);
+  border-radius: 4px;
+  padding: 3px;
+  width: 240px;
+  height: 25px;
+  background-color: amber;
+  color: black;
+  font-size: small;
+  text-align: center;
+}
+
 
